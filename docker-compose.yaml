@@ -1,0 +1,61 @@
+networks: 
+  backend: 
+    driver: custom-driver
+    name: salck-workflow-backend
+  
+services:
+  app:
+    image: myapp:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:3000"
+    volumes:
+      - ./app:/usr/src/app
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER=slack-admin
+      - DB_PASSWORD=password
+      - DB_NAME=slack-workflow
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=redis-pass
+    command: npm run start:dev
+    networks:
+      - backend
+    
+
+  db: 
+    image: mysql:9
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: slack-workflow
+      MYSQL_USER: slack-admin
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - backend
+  
+  redis:
+    image: redis:8-alpine
+    environment:
+      - REDIS_PASSWORD=redis-pass
+      - REDIS_USERNAME=redis-slack
+    command: redis-server --requirepass "redis-pass" --rename-command AUTH "NEW_AUTH"
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - backend
+volumes:
+  db_data:
+    driver: local
+  redis_data:
+    driver: local
