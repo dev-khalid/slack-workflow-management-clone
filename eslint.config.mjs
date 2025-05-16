@@ -72,6 +72,10 @@ export default tseslint.config(
           selector: ['variable', 'parameter', 'method', 'accessor', 'property'],
           format: ['camelCase'],
         },
+        {
+          selector: ['object'],
+          format: ['UPPER_CASE', 'camelCase'],
+        },
         // Prefix private/protected properties with underscore
         {
           selector: 'memberLike',
