@@ -1,18 +1,16 @@
 networks: 
   backend: 
-    driver: custom-driver
+    driver: bridge
     name: salck-workflow-backend
   
 services:
   app:
-    image: myapp:latest
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: dockerfile
     ports:
       - "8080:3000"
-    volumes:
-      - ./app:/usr/src/app
+
     environment:
       - NODE_ENV=production
       - DB_HOST=db
@@ -26,7 +24,8 @@ services:
     command: npm run start:dev
     networks:
       - backend
-    
+    volumes:
+      - ./:/app
 
   db: 
     image: mysql:9

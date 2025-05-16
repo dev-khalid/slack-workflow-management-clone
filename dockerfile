@@ -1,8 +1,7 @@
 FROM node:24-alpine AS build
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm install
 COPY . .
+RUN npm install
 RUN npm run build
 
 FROM node:24-alpine
@@ -15,4 +14,7 @@ COPY --from=build /app/dist ./dist
 ENV NODE_ENV=production
 EXPOSE 3000
 
-CMD ["node", "dist/main.js"]
+CMD ["npm", "run", "start"]
+
+
+# I don't need tsconfig right? then why it's not working?
