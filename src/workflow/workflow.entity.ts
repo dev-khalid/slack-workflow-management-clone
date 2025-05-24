@@ -1,71 +1,92 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { types } from '@mikro-orm/core';
-import { Type } from 'class-transformer';
 import {
+  ApiExtraModels,
+  ApiProperty,
+  ApiPropertyOptional,
+  ApiResponseProperty,
+} from '@nestjs/swagger';
+import { Transform, Type } from 'class-transformer';
+import {
+  IsEnum,
   IsNotEmpty,
   IsObject,
   IsOptional,
   IsString,
-  Validate,
   ValidateNested,
 } from 'class-validator';
+import { ApiMethods } from 'src/common/api-methods.enum';
 
 export class WorkflowDefinition {
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   endpoint!: string;
 
+  @ApiPropertyOptional({ enum: ApiMethods })
   @IsOptional()
-  @IsString()
-  method?: string;
+  @Transform(({ value }) => value?.toUpperCase())
+  @IsEnum(ApiMethods)
+  method?: ApiMethods;
 
+  @ApiPropertyOptional({ type: Object })
   @IsOptional()
   @IsObject()
-  headers?: Record<string, string>;
+  headers?: IUnsafeObject;
 
+  @ApiPropertyOptional({ type: Object })
   @IsOptional()
   @IsObject()
-  body?: Record<string, any>;
+  body?: IUnsafeObject;
 
+  @ApiPropertyOptional({ type: Object })
   @IsOptional()
   @IsObject()
-  queryParams?: Record<string, string>;
+  queryParams?: IUnsafeObject;
 }
+
 @Entity()
 export class Workflow {
-  @IsOptional()
+  @ApiProperty()
   @PrimaryKey()
   id!: number;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @Property()
   name!: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @Property()
   description!: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @Property()
   scheduleCron!: string;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString()
   @Property({ type: types.string, nullable: true })
   scheduleTimeZone?: string;
 
+  @ApiProperty({ type: WorkflowDefinition })
   @IsNotEmpty()
-  @ValidateNested({ each: true })
   @Type(() => WorkflowDefinition)
+  @ValidateNested({ each: true })
   @Property({ type: types.json })
   workflowDefinition!: WorkflowDefinition;
 
+  @ApiResponseProperty()
   @Property()
   createdAt: Date = new Date();
 
+  @ApiResponseProperty()
   @Property({
     onUpdate: () => new Date(),
   })

@@ -6,6 +6,7 @@ import { CreateWorkflowDto } from './dto/workflow.dto';
 export class WorkflowController {
   constructor(private readonly workflowService: WorkflowService) {}
 
+  // @ApiResponse({ type: Workflow })
   @Post()
   async createWorkflow(@Body() createWorkflowDto: CreateWorkflowDto) {
     return this.workflowService.addWorkflow(createWorkflowDto);

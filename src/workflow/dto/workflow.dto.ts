@@ -3,7 +3,7 @@
 // Use openapi decorators to generate the swagger documentation.
 // Use class-validator decorators to validate the data.
 
-import { OmitType, PartialType } from '@nestjs/mapped-types';
+import { OmitType, PartialType } from '@nestjs/swagger';
 import { Workflow } from '../workflow.entity';
 
 export class CreateWorkflowDto extends OmitType(Workflow, ['id', 'createdAt', 'updatedAt'] as const) {}
