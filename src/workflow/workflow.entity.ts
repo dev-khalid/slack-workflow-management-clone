@@ -1,21 +1,20 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, Enum, PrimaryKey, Property } from '@mikro-orm/core';
 import { types } from '@mikro-orm/core';
-import {
-  ApiExtraModels,
-  ApiProperty,
-  ApiPropertyOptional,
-  ApiResponseProperty,
-} from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional, ApiResponseProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import {
+  IsArray,
+  IsDateString,
   IsEnum,
   IsNotEmpty,
+  IsNumber,
   IsObject,
   IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { ApiMethods } from 'src/common/api-methods.enum';
+import { ApiMethods } from '../common/api-methods.enum';
+import { RepeatFrequency, RepeatOn } from './config';
 
 export class WorkflowDefinition {
   @ApiProperty()
@@ -23,9 +22,9 @@ export class WorkflowDefinition {
   @IsString()
   endpoint!: string;
 
-  @ApiPropertyOptional({ enum: ApiMethods })
+  @ApiPropertyOptional({ enum: ApiMethods, default: ApiMethods.GET })
   @IsOptional()
-  @Transform(({ value }) => value?.toUpperCase())
+  @Transform(({ value }) => value?.toUpperCase() || ApiMethods.GET)
   @IsEnum(ApiMethods)
   method?: ApiMethods;
 
@@ -63,11 +62,11 @@ export class Workflow {
   @Property()
   description!: string;
 
-  @ApiProperty()
-  @IsNotEmpty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
-  @Property()
-  scheduleCron!: string;
+  @Property({ nullable: true })
+  scheduleCron?: string;
 
   @ApiPropertyOptional()
   @IsOptional()
@@ -81,6 +80,37 @@ export class Workflow {
   @ValidateNested({ each: true })
   @Property({ type: types.json })
   workflowDefinition!: WorkflowDefinition;
+
+  @ApiPropertyOptional({ default: 1 })
+  @IsOptional()
+  @IsNumber()
+  @Property({ type: types.integer, default: 1 })
+  repeat?: number;
+
+  @ApiPropertyOptional({ enum: RepeatFrequency, default: RepeatFrequency.Daily })
+  @IsOptional()
+  @IsEnum(RepeatFrequency)
+  @Enum({ items: () => RepeatFrequency, default: RepeatFrequency.Daily })
+  repeatFrequency?: RepeatFrequency;
+
+  @ApiPropertyOptional({ enum: RepeatOn, isArray: true })
+  @IsNotEmpty()
+  @IsArray()
+  @IsEnum(RepeatOn, { each: true })
+  @Enum({ items: () => RepeatOn, array: true })
+  repeatOn: RepeatOn[];
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsDateString()
+  @Property({ nullable: true, type: types.date })
+  repeatStartDate?: Date = new Date();
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsDateString()
+  @Property({ nullable: true, type: types.date })
+  repeatEndDate?: Date;
 
   @ApiResponseProperty()
   @Property()
