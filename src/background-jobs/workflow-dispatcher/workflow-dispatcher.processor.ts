@@ -7,5 +7,8 @@ export class WorkflowDispatcherProcessor extends WorkerHost {
     super();
   }
 
-  async process(job) {}
+  async process(job) {
+    // We will do a fake api call as placeholder here.
+    
+  }
 }
