@@ -63,8 +63,8 @@
           "length": null,
           "mappedType": "json"
         },
-        "repeat": {
-          "name": "repeat",
+        "repeat_interval": {
+          "name": "repeat_interval",
           "type": "int",
           "unsigned": false,
           "autoincrement": false,
@@ -72,6 +72,16 @@
           "nullable": false,
           "length": null,
           "default": "1",
+          "mappedType": "integer"
+        },
+        "repeat_count": {
+          "name": "repeat_count",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": null,
           "mappedType": "integer"
         },
         "repeat_frequency": {
@@ -100,13 +110,13 @@
           "nullable": false,
           "length": null,
           "enumItems": [
-            "sunday",
-            "monday",
-            "tuesday",
-            "wednesday",
-            "thursday",
-            "friday",
-            "saturday"
+            "SUN",
+            "MON",
+            "TUE",
+            "WED",
+            "THU",
+            "FRI",
+            "SAT"
           ],
           "mappedType": "text"
         },

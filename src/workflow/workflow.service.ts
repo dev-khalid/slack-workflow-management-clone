@@ -8,8 +8,13 @@ export class WorkflowService {
   constructor(private readonly em: EntityManager) {}
 
   async addWorkflow(payload: CreateWorkflowDto) {
+    // Prepare the payload and update the scheduleCronExpression if not provided.
+
     const workflow = this.em.create(Workflow, payload);
-    await this.em.persistAndFlush(workflow);
+
+    await this.em.flush();
+
+    // Take the name and the id and create the job-scheduler id.
     return workflow;
   }
 

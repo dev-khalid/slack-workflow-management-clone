@@ -4,6 +4,7 @@ import { ApiProperty, ApiPropertyOptional, ApiResponseProperty } from '@nestjs/s
 import { Transform, Type } from 'class-transformer';
 import {
   IsArray,
+  IsDate,
   IsDateString,
   IsEnum,
   IsNotEmpty,
@@ -11,6 +12,7 @@ import {
   IsObject,
   IsOptional,
   IsString,
+  ValidateIf,
   ValidateNested,
 } from 'class-validator';
 import { ApiMethods } from '../common/api-methods.enum';
@@ -85,7 +87,13 @@ export class Workflow {
   @IsOptional()
   @IsNumber()
   @Property({ type: types.integer, default: 1 })
-  repeat?: number;
+  repeatInterval?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsNumber()
+  @Property({ type: types.integer })
+  repeatCount?: number;
 
   @ApiPropertyOptional({ enum: RepeatFrequency, default: RepeatFrequency.Daily })
   @IsOptional()
@@ -100,15 +108,20 @@ export class Workflow {
   @Enum({ items: () => RepeatOn, array: true })
   repeatOn: RepeatOn[];
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    description:
+      'Start date should contain start time as well in utc timezone. Example: 2025-10-01T12:30:00Z',
+  })
   @IsOptional()
-  @IsDateString()
+  @Type(() => Date)
+  @IsDate()
   @Property({ nullable: true, type: types.date })
   repeatStartDate?: Date = new Date();
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsDateString()
+  @Type(() => Date)
+  @IsDate()
   @Property({ nullable: true, type: types.date })
   repeatEndDate?: Date;
 

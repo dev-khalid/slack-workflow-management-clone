@@ -7,11 +7,13 @@ export enum RepeatFrequency {
 }
 
 export enum RepeatOn {
-  Sunday = 'sunday',
-  Monday = 'monday',
-  Tuesday = 'tuesday',
-  Wednesday = 'wednesday',
-  Thursday = 'thursday',
-  Friday = 'friday',
-  Saturday = 'saturday',
+  Sunday = 'SUN',
+  Monday = 'MON',
+  Tuesday = 'TUE',
+  Wednesday = 'WED',
+  Thursday = 'THU',
+  Friday = 'FRI',
+  Saturday = 'SAT',
 }
+
+
