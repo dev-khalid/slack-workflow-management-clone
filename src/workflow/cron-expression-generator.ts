@@ -1,4 +1,4 @@
-import { RepeatFrequency, RepeatOn } from './config';
+import { RepeatOn } from './config';
 import { CronGeneratorDto } from './dto/workflow.dto';
 import { datetime, Frequency, RRule, Options as RRuleOptions } from 'rrule';
 import moment from 'moment-timezone';
@@ -36,11 +36,12 @@ export const cronExpressionGenerator = (payload: CronGeneratorDto) => {
     const month = startTime.month() + 1; // 0-11
     const year = startTime.year();
 
+    // Convert it to Server timezone.
     recurrenceRuleOptions.dtstart = datetime(year, month, date, hour, minute, second);
   }
 
   if (payload.repeatEndDate) {
-    const endTime = moment(payload.repeatEndDate);
+    const endTime = moment(payload.repeatEndDate).utc();
     const hour = endTime.hour();
     const minute = endTime.minute();
     const second = endTime.second();
@@ -48,6 +49,7 @@ export const cronExpressionGenerator = (payload: CronGeneratorDto) => {
     const month = endTime.month() + 1; // 0-11
     const year = endTime.year();
 
+    // Convert it to Server timezone.
     recurrenceRuleOptions.until = datetime(year, month, date, hour, minute, second);
   }
 
@@ -55,6 +57,6 @@ export const cronExpressionGenerator = (payload: CronGeneratorDto) => {
 
   return {
     text: rule.toText(),
-    rrule: rule.toString(),
+    pattern: rule.toString(),
   };
 };

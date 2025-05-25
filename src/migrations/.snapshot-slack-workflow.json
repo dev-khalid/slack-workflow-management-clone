@@ -86,13 +86,15 @@
         },
         "repeat_frequency": {
           "name": "repeat_frequency",
-          "type": "enum('HOURLY','DAILY','WEEKLY','MONTHLY','YEARLY')",
+          "type": "enum('SECONDLY','MINUTELY','HOURLY','DAILY','WEEKLY','MONTHLY','YEARLY')",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
           "default": "'DAILY'",
           "enumItems": [
+            "SECONDLY",
+            "MINUTELY",
             "HOURLY",
             "DAILY",
             "WEEKLY",

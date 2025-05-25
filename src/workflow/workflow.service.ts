@@ -3,10 +3,14 @@ import { CreateWorkflowDto } from './dto/workflow.dto';
 import { EntityManager } from '@mikro-orm/core';
 import { Workflow } from './workflow.entity';
 import { cronExpressionGenerator } from './cron-expression-generator';
+import { WorkflowDispatcherProducer } from 'src/background-jobs/workflow-dispatcher/workflow-dispatcher.producer';
 
 @Injectable()
 export class WorkflowService {
-  constructor(private readonly em: EntityManager) {}
+  constructor(
+    private readonly em: EntityManager,
+    private readonly workflowDispatcherProducer: WorkflowDispatcherProducer,
+  ) {}
 
   prepareJobSchedulerId(name: string): string {
     const randomSuffix = Math.floor(100000 + Math.random() * 900000).toString();
@@ -25,6 +29,11 @@ export class WorkflowService {
 
     await this.em.flush();
 
+    await this.workflowDispatcherProducer.registerWorkflowDispatchJob({
+      jobSchedulerId: workflow.jobSchedulerId,
+      workflowDefinition: workflow.workflowDefinition,
+      pattern: recurrenceRule.pattern,
+    });
     return workflow;
   }
 

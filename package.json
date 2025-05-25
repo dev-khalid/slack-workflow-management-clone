@@ -23,6 +23,9 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
+    "@bull-board/api": "^6.9.6",
+    "@bull-board/express": "^6.9.6",
+    "@bull-board/nestjs": "^6.9.6",
     "@mikro-orm/core": "^6.4.15",
     "@mikro-orm/migrations": "^6.4.15",
     "@mikro-orm/mysql": "^6.4.15",
@@ -37,6 +40,7 @@
     "bullmq": "^5.53.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
+    "express-basic-auth": "^1.2.1",
     "joi": "^17.13.3",
     "moment-timezone": "^0.5.48",
     "reflect-metadata": "^0.2.2",

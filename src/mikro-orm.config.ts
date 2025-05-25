@@ -1,6 +1,7 @@
 import { defineConfig, MySqlDriver, Options } from '@mikro-orm/mysql';
 import { TSMigrationGenerator } from '@mikro-orm/migrations';
-
+import { Logger } from '@nestjs/common';
+const logger = new Logger('MikroORM');
 
 export default defineConfig({
   entities: ['dist/**/*.entity.js'],
@@ -13,18 +14,19 @@ export default defineConfig({
   forceUtcTimezone: true,
   driver: MySqlDriver,
   debug: true,
+  logger: logger.log.bind(logger),
   migrations: {
-    tableName: 'migrations', 
-    path: process.cwd() + '/src/migrations', 
-    pathTs: undefined, 
-    glob: '!(*.d).{js,ts}', 
-    transactional: true, 
-    disableForeignKeys: true, 
-    allOrNothing: true, 
-    dropTables: true, 
-    safe: false, 
-    snapshot: true, 
-    emit: 'ts', 
+    tableName: 'migrations',
+    path: process.cwd() + '/src/migrations',
+    pathTs: undefined,
+    glob: '!(*.d).{js,ts}',
+    transactional: true,
+    disableForeignKeys: true,
+    allOrNothing: true,
+    dropTables: true,
+    safe: false,
+    snapshot: true,
+    emit: 'ts',
     generator: TSMigrationGenerator,
   },
 });

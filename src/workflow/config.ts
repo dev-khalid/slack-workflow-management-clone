@@ -8,7 +8,9 @@ export enum RepeatOn {
   Sunday = 'SUN',
 }
 
-export enum RepeatFrequency { 
+export enum RepeatFrequency {
+  SECONDLY = 'SECONDLY',
+  MINUTELY = 'MINUTELY',
   HOURLY = 'HOURLY',
   DAILY = 'DAILY',
   WEEKLY = 'WEEKLY',
