@@ -5,14 +5,12 @@ import { Transform, Type } from 'class-transformer';
 import {
   IsArray,
   IsDate,
-  IsDateString,
   IsEnum,
   IsNotEmpty,
   IsNumber,
   IsObject,
   IsOptional,
   IsString,
-  ValidateIf,
   ValidateNested,
 } from 'class-validator';
 import { ApiMethods } from '../common/api-methods.enum';
@@ -68,7 +66,7 @@ export class Workflow {
   @IsOptional()
   @IsString()
   @Property({ nullable: true })
-  scheduleCron?: string;
+  scheduleCronExpression?: string;
 
   @ApiPropertyOptional()
   @IsOptional()
@@ -87,26 +85,26 @@ export class Workflow {
   @IsOptional()
   @IsNumber()
   @Property({ type: types.integer, default: 1 })
-  repeatInterval?: number;
+  repeatInterval: number = 1;
 
   @ApiPropertyOptional()
   @IsOptional()
   @IsNumber()
-  @Property({ type: types.integer })
+  @Property({ type: types.integer, nullable: true })
   repeatCount?: number;
 
-  @ApiPropertyOptional({ enum: RepeatFrequency, default: RepeatFrequency.Daily })
+  @ApiPropertyOptional({ enum: RepeatFrequency, default: RepeatFrequency.DAILY })
   @IsOptional()
   @IsEnum(RepeatFrequency)
-  @Enum({ items: () => RepeatFrequency, default: RepeatFrequency.Daily })
-  repeatFrequency?: RepeatFrequency;
+  @Enum({ items: () => RepeatFrequency, default: RepeatFrequency.DAILY })
+  repeatFrequency: RepeatFrequency;
 
   @ApiPropertyOptional({ enum: RepeatOn, isArray: true })
-  @IsNotEmpty()
+  @IsOptional()
   @IsArray()
   @IsEnum(RepeatOn, { each: true })
-  @Enum({ items: () => RepeatOn, array: true })
-  repeatOn: RepeatOn[];
+  @Enum({ items: () => RepeatOn, array: true, nullable: true })
+  repeatOn?: RepeatOn[];
 
   @ApiPropertyOptional({
     description:
@@ -124,6 +122,10 @@ export class Workflow {
   @IsDate()
   @Property({ nullable: true, type: types.date })
   repeatEndDate?: Date;
+
+  @ApiResponseProperty()
+  @Property()
+  jobSchedulerId: string;
 
   @ApiResponseProperty()
   @Property()

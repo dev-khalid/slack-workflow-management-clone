@@ -33,8 +33,8 @@
           "length": 255,
           "mappedType": "string"
         },
-        "schedule_cron": {
-          "name": "schedule_cron",
+        "schedule_cron_expression": {
+          "name": "schedule_cron_expression",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -80,24 +80,24 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "length": null,
           "mappedType": "integer"
         },
         "repeat_frequency": {
           "name": "repeat_frequency",
-          "type": "enum('daily','weekly','monthly','yearly','hourly')",
+          "type": "enum('HOURLY','DAILY','WEEKLY','MONTHLY','YEARLY')",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "default": "'daily'",
+          "default": "'DAILY'",
           "enumItems": [
-            "daily",
-            "weekly",
-            "monthly",
-            "yearly",
-            "hourly"
+            "HOURLY",
+            "DAILY",
+            "WEEKLY",
+            "MONTHLY",
+            "YEARLY"
           ],
           "mappedType": "enum"
         },
@@ -107,16 +107,16 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "length": null,
           "enumItems": [
-            "SUN",
             "MON",
             "TUE",
             "WED",
             "THU",
             "FRI",
-            "SAT"
+            "SAT",
+            "SUN"
           ],
           "mappedType": "text"
         },
@@ -139,6 +139,16 @@
           "nullable": true,
           "length": null,
           "mappedType": "date"
+        },
+        "job_scheduler_id": {
+          "name": "job_scheduler_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
         },
         "created_at": {
           "name": "created_at",

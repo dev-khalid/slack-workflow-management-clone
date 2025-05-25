@@ -1,19 +1,17 @@
-export enum RepeatFrequency {
-  Daily = 'daily',
-  Weekly = 'weekly',
-  Monthly = 'monthly',
-  Yearly = 'yearly',
-  Hourly = 'hourly',
-}
-
 export enum RepeatOn {
-  Sunday = 'SUN',
-  Monday = 'MON',
+  Monday = 'MON', // Default week start day for rrule package.
   Tuesday = 'TUE',
   Wednesday = 'WED',
   Thursday = 'THU',
   Friday = 'FRI',
   Saturday = 'SAT',
+  Sunday = 'SUN',
 }
 
-
+export enum RepeatFrequency { 
+  HOURLY = 'HOURLY',
+  DAILY = 'DAILY',
+  WEEKLY = 'WEEKLY',
+  MONTHLY = 'MONTHLY',
+  YEARLY = 'YEARLY',
+}
