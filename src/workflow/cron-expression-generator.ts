@@ -36,7 +36,6 @@ export const cronExpressionGenerator = (payload: CronGeneratorDto) => {
     const month = startTime.month() + 1; // 0-11
     const year = startTime.year();
 
-    // Convert it to Server timezone.
     recurrenceRuleOptions.dtstart = datetime(year, month, date, hour, minute, second);
   }
 
@@ -49,7 +48,6 @@ export const cronExpressionGenerator = (payload: CronGeneratorDto) => {
     const month = endTime.month() + 1; // 0-11
     const year = endTime.year();
 
-    // Convert it to Server timezone.
     recurrenceRuleOptions.until = datetime(year, month, date, hour, minute, second);
   }
 

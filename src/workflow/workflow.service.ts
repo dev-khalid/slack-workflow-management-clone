@@ -34,6 +34,7 @@ export class WorkflowService {
       workflowDefinition: workflow.workflowDefinition,
       pattern: recurrenceRule.pattern,
     });
+
     return workflow;
   }
 

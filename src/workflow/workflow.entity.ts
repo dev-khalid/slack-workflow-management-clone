@@ -56,11 +56,11 @@ export class Workflow {
   @Property()
   name!: string;
 
-  @ApiProperty()
-  @IsNotEmpty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
-  @Property()
-  description!: string;
+  @Property({ nullable: true })
+  description?: string;
 
   @ApiPropertyOptional()
   @IsOptional()

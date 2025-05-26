@@ -13,12 +13,13 @@ export class WorkflowDispatcherProducer {
 
   async registerWorkflowDispatchJob(payload: IWorkflowDispatcherJobSchedulerData) {
     const jobData = {
-      name: 'cron-job',
+      name: payload?.jobName || `${WORKFLOW_DISPATCHER_QUEUE}-job`,
       data: {
         workflowDefinition: payload.workflowDefinition,
       },
     };
-
+    try {
+    } catch (error) {}
     const scheduledJob = await this.workflowDispatcherQueue.upsertJobScheduler(
       payload.jobSchedulerId,
       {
@@ -27,6 +28,11 @@ export class WorkflowDispatcherProducer {
       jobData,
     );
 
+    console.log(`Job added to ${WORKFLOW_DISPATCHER_QUEUE}`, {
+      jobId: scheduledJob?.id,
+      jobSchedulerId: payload.jobSchedulerId,
+      jobData,
+    });
     return scheduledJob;
   }
 }

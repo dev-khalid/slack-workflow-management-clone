@@ -4,6 +4,7 @@ import { WORKFLOW_DISPATCHER_QUEUE, WorkflowDispatcherQueueConfig } from './conf
 import { BullBoardModule } from '@bull-board/nestjs';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 import { WorkflowDispatcherProducer } from './workflow-dispatcher.producer';
+import { WorkflowDispatcherProcessor } from './workflow-dispatcher.processor';
 @Global()
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { WorkflowDispatcherProducer } from './workflow-dispatcher.producer';
       adapter: BullMQAdapter,
     }),
   ],
-  providers: [WorkflowDispatcherProducer, WorkflowDispatcherProducer],
+  providers: [WorkflowDispatcherProducer, WorkflowDispatcherProcessor],
   exports: [WorkflowDispatcherProducer],
 })
 export class WorkflowDispatcherModule {}

@@ -17,6 +17,9 @@ export const settings = {
     }
 
     const next_occurrence = rrule.after(currentDate, false);
+    if(!next_occurrence) {
+      console.warn('Nothing to schedule!')
+    }
 
     return next_occurrence?.getTime();
   },
