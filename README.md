@@ -1,4 +1,4 @@
-# Slack Workflow Management Clone
+# Dynamic cron scheduler
 
 A simple project that replicates the functionality of managing workflows in Slack. Built with NestJS, this application enables automated workflow management with scheduled API calls and background job processing.
 
