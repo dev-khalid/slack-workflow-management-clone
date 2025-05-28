@@ -2,6 +2,11 @@ name: Run unit test
 on:
   pull_request:
     types: [synchronize, opened, reopened, converted_to_draft, ready_for_review]
+  push:
+    branches:
+      - main
+      - master
+
 jobs: 
   run-the-test: 
     runs-on: ubuntu-latest
