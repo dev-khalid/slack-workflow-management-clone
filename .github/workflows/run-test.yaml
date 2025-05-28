@@ -1,0 +1,24 @@
+on:
+  pull_request:
+    types: [synchronize, opened, closed, reopened, converted_to_draft, ready_for_review]
+jobs: 
+  run-the-test: 
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Print "Hello World!"
+        run: echo "Hello World!"
+      
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test
